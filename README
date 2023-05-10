@@ -1,0 +1,5 @@
+Pentru rularea temei trebuie executata comanda "docker-compose up --build" din radacina proiectului.
+Am implementat serverul in python folosind flask si acesta ruleaza pe portul 5000.
+Baza de date este de tip PostgreSQL si este creata cu scriptul din folderul db/ si ruleaza pe portul 5432.
+Utilitarul de gestiune al bazei de date pe care l-am ales este pgAdmin, fiind cel mai popular pentru postgreSQL.
+In folderul test/ se afla fisierul .json folosit pentru testarea proiectului.

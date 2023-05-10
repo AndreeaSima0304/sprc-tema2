@@ -1,0 +1,54 @@
+version: '3.3'
+
+services:
+  server:
+    depends_on:
+      - postgresql
+    build: ./src
+    image: sprc_server
+    container_name: sprc_server
+    restart: always
+    ports:
+      - "5000:5000"
+    networks:
+      - network-api
+    environment:
+      POSTGRES_HOST: postgresql
+      POSTGRES_PORT: 5432
+    env_file: variables.env
+
+  postgresql:
+    container_name: pg_container
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql
+      - ./db/createTables.sql:/docker-entrypoint-initdb.d/createTables.sql
+    networks:
+      - network-api
+      - network_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      POSTGRES_DB: SPRC
+    env_file: variables.env
+
+  pgadmin:
+      image: dpage/pgadmin4
+      ports:
+        - "8080:80"
+      restart: always
+      environment:
+        - 'PGADMIN_DEFAULT_EMAIL=admin@admin.com'
+        - 'PGADMIN_DEFAULT_PASSWORD=admin'
+      networks:
+        - network_db
+
+networks:
+  network-api:
+  network_db:
+
+volumes:
+  pg_data:
